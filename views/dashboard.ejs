@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%= include partials/envatoHead.ejs %>
+    <script type="text/javascript" src="/vendor/echarts/echarts.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <%= include partials/angularScripts.ejs %>
+
+  </head>
+  <!-- Angular controllers -->
+
+  <body class="black">
+    <div class="app" id="app" ng-app="crypto-web-app">
+      <!-- ############ LAYOUT START-->
+
+      <%= include partials/envato/adminNavbar.ejs %>
+
+      <!-- content -->
+      <div id="content" class="app-content box-shadow-z0" role="main">
+        <div class="app-header white box-shadow navbar-md">
+          <div class="navbar navbar-toggleable-sm flex-row align-items-center">
+            <!-- Open side - Naviation on mobile -->
+            <a data-toggle="modal" data-target="#aside" class="hidden-lg-up mr-3">
+              <i class="material-icons">&#xe5d2;</i>
+            </a>
+            <!-- / -->
+
+            <!-- Page title - Bind to $state's title -->
+            <div class="mb-0 h5 no-wrap" ng-bind="$state.current.data.title" id="pageTitle"></div>
+
+            <!-- navbar collapse -->
+            <%= include partials/envato/fullscreen.ejs %>
+
+            <!-- / navbar collapse -->
+            <!-- navbar right -->
+            <ul class="nav navbar-nav ml-auto flex-row">
+              <li class="nav-item dropdown pos-stc-xs">
+                <a class="nav-link mr-2" href data-toggle="dropdown">
+                  <i class="material-icons">&#xe7f5;</i>
+                  <span class="label label-sm up warn">3</span>
+                </a>
+                <div ui-include="'/vendor/envato/views/blocks/dropdown.notification.html'"></div>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link p-0 clear" href="#" data-toggle="dropdown">
+                  <span class="avatar w-32">
+                    <img src="/vendor/envato/assets/images/a0.jpg" alt="...">
+                    <i class="on b-white bottom"></i>
+                  </span>
+                </a>
+                <%= include ../public/vendor/envato/views/blocks/dropdown.user.ejs %>
+              </li>
+              <li class="nav-item hidden-md-up">
+                <a class="nav-link pl-2" data-toggle="collapse" data-target="#collapse">
+                  <i class="material-icons">&#xe5d4;</i>
+                </a>
+              </li>
+            </ul>
+            <!-- / navbar right -->
+          </div>
+        </div>
+        <div class="app-footer">
+          <div class="p-2 text-xs">
+            <div class="pull-right text-muted py-1">
+              &copy; Copyright
+              <strong>Flatkit</strong>
+              <span class="hidden-xs-down">- Built with Love v1.1.3</span>
+              <a ui-scroll-to="content">
+                <i class="fa fa-long-arrow-up p-x-sm"></i>
+              </a>
+            </div>
+            <div class="nav">
+              <a class="nav-link" href="/vendor/envato/">About</a>
+              <a class="nav-link" href="http://themeforest.net/user/flatfull/portfolio?ref=flatfull">Get it</a>
+            </div>
+          </div>
+        </div>
+        <div ui-view class="app-body" id="view">
+
+          <!-- ############ PAGE START-->
+          <div class="padding">
+            <div class="margin">
+              <h5 class="mb-0 _300">Hola
+                <%= account.name %>! Bienvenido de vuelta</h5>
+              <small class="text-muted">Plataforma de monitoreo del crypto mercado chileno</small>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12 col-lg-6">
+              <day-graph  currency="ether" id='g1'></day-graph>
+            </div>
+            <div class="col-md-12 col-lg-6">
+              <day-graph  currency="btc" id='g2'></day-graph>
+
+            </div>
+          </div>
+          <table style="width:50%">
+            <tr>
+              <th>Moneda</th>
+              <th>SurBTC vende a</th>
+              <th>SurBTC compra a</th>
+            </tr>
+            <tr>
+              <th style="text-align: center">BTC</td>
+              <td id="sell-btc" style="text-align: center">-</td>
+              <td id="buy-btc" style="text-align: center">-</td>
+            </tr>
+            <tr>
+              <th style="text-align: center">ETH</td>
+              <td id="sell-eth" style="text-align: center">-</td>
+              <td id="buy-eth" style="text-align: center">-</td>
+            </tr>
+          </table>
+          <br/>
+          <br/>
+          <hr/>
+
+          <div>
+            <h1>Cuenta:
+              <%= account.name%></h1>
+          </div>
+          <div>
+            <h6>Activos totales:
+              <span id='total-asset'></span>
+            </h6>
+            <h6>Plata puesta:
+              <span >
+                <%= account.totalMoneyIn %></span>
+            </h6>
+
+          </div>
+
+          <table style="width:100%">
+            <tr>
+              <th></th>
+              <th>CLP</th>
+              <th>BTC</th>
+              <th>ETHER</th>
+            </tr>
+            <tr>
+              <th>Cantidad</th>
+              <td ><%= account.clp %></td>
+              <td id="btc-amount"><%= account.btc %></td>
+              <td id="eth-amount"><%= account.eth %></td>
+            </tr>
+            <tr>
+              <th>Valor de Inventario (CLP)</th>
+              <td id='clp-value-inventary'><%= account.clpInventary %></td>
+              <td id='btc-value-inventary'><%= account.btcInventary %></td>
+              <td id="eth-value-inventary"><%= account.ethInventary %></td>
+            </tr>
+            <tr>
+              <th>Valor de Mercado (CLP)</th>
+              <td id='clp-value'><%= account.clp %></td>
+              <td id='btc-value'><%= account.btc %></td>
+              <td id="eth-value"><%= account.eth %></td>
+            </tr>
+            <tr>
+              <th>Rentabilidad %</th>
+              <td id='clp-profitability'>
+                -
+              </td>
+              <td id='btc-profitability'>
+                -
+              </td>
+              <td id='eth-profitability'>
+                -
+              </td>
+            </tr>
+          </table>
+          <hr/>
+          <br/>
+          <br/>
+          <div>
+            <h1>Transacciones</h1>
+            <table id="transactions" style="width:100%">
+              <tr>
+                <th>Fecha</th>
+                <th>Moneda Cargada</th>
+                <th>Monto Cargado</th>
+                <th>Precio</th>
+                <th>Moneda Abonada</th>
+                <th>Monto abonado</th>
+                <th>Inventariado</th>
+              </tr>
+
+            </table>
+            <a href="/transaction/new">Agregar</a>
+          </div>
+          <script>
+            var CONFIG = {
+              price: {
+                btc: {},
+                eth: {}
+              },
+              amount: {
+                btc: '-',
+                eth: '-'
+
+              }
+            };
+          </script>
+          <script src="/javascripts/prices.js"></script>
+          <script src="/javascripts/transactions.js"></script>
+
+          <!-- ##### MAP AREA  -->
+
+          <!-- ############ PAGE END-->
+
+        </div>
+      </div>
+      <!-- / -->
+      <!-- / -->
+
+      <!-- ############ LAYOUT END-->
+
+    </div>
+    <%= include partials/envato/scripts.ejs %>
+
+    <!-- Graphs angular services -->
+    <script src="/angular/services/graphs/chart.js"></script>
+    <script src="/angular/services/graphs/day.js"></script>
+    <script src="/angular/services/graphs/hour.js"></script>
+
+    <script src="/angular/services/graphs/utils.js"></script>
+
+    <!-- Angular directives -->
+    <script src="/angular/directives/metrics/dayGraph.js"></script>
+
+  </body>
+</html>

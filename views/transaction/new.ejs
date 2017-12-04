@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+
+  </head>
+
+  <body>
+    <form method="post" action="/transaction/create">
+      <!-- <input type="text" placeholder="desde" name="from_currency"> -->
+      <label>Desde:</label>
+      <select name="from_currency">
+        <option value="cargo">Cargo</option>
+        <option value="clp">Pesos Chilenos (CLP)</option>
+        <option value="btc">Bitcoin</option>
+        <option value="eth">Ethereum</option>
+        <option value="retiro">Retiro</option>
+      </select>
+      <input type="text" placeholder="cantidad desde" name="amount_from">
+      <label>Moneda comprada:</label>
+      <select name="to_currency">
+        <option value="cargo">Cargo</option>
+        <option value="clp">Pesos Chilenos (CLP)</option>
+        <option value="btc">Bitcoin</option>
+        <option value="eth">Ethereum</option>
+        <option value="retiro">Retiro</option>
+      </select>      <input type="text" placeholder="cantidad a" name="amount_to">
+
+      <input type="submit" value="Enviar">
+    </form>
+  </body>
+
+</html>

@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%= include partials/envatoHead.ejs %>
+    <script type="text/javascript" src="/vendor/echarts/echarts.min.js"></script>
+  </head>
+  <%= include partials/angularScripts.ejs %>
+  <!-- Angular controllers -->
+  <script src="/javascripts/angular/services/impressionMetrics.js"></script>
+  <script src="/javascripts/angular/services/survey.js"></script>
+  <script src="/javascripts/angular/controllers/dashboard-controller.js"></script>
+
+  <body class="black">
+    <div class="app" id="app" ng-app="accionet-web-app">
+      <!-- ############ LAYOUT START-->
+
+        <%= include partials/envato/adminNavbar.ejs %>
+
+      <!-- content -->
+      <div id="content" class="app-content box-shadow-z0" role="main" ng-controller="dashboardController">
+        <div class="app-header white box-shadow navbar-md">
+          <div class="navbar navbar-toggleable-sm flex-row align-items-center">
+            <!-- Open side - Naviation on mobile -->
+            <a data-toggle="modal" data-target="#aside" class="hidden-lg-up mr-3">
+              <i class="material-icons">&#xe5d2;</i>
+            </a>
+            <!-- / -->
+
+            <!-- Page title - Bind to $state's title -->
+            <div class="mb-0 h5 no-wrap" ng-bind="$state.current.data.title" id="pageTitle"></div>
+
+            <!-- navbar collapse -->
+            <%= include partials/envato/fullscreen.ejs %>
+
+            <!-- / navbar collapse -->
+            <!-- navbar right -->
+            <ul class="nav navbar-nav ml-auto flex-row">
+              <li class="nav-item dropdown pos-stc-xs">
+                <a class="nav-link mr-2" href data-toggle="dropdown">
+                  <i class="material-icons">&#xe7f5;</i>
+                  <span class="label label-sm up warn">3</span>
+                </a>
+                <div ui-include="'/vendor/envato/views/blocks/dropdown.notification.html'"></div>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link p-0 clear" href="#" data-toggle="dropdown">
+                  <span class="avatar w-32">
+                    <img src="/vendor/envato/assets/images/a0.jpg" alt="...">
+                    <i class="on b-white bottom"></i>
+                  </span>
+                </a>
+                <%= include ../public/vendor/envato/views/blocks/dropdown.user.ejs %>
+              </li>
+              <li class="nav-item hidden-md-up">
+                <a class="nav-link pl-2" data-toggle="collapse" data-target="#collapse">
+                  <i class="material-icons">&#xe5d4;</i>
+                </a>
+              </li>
+            </ul>
+            <!-- / navbar right -->
+          </div>
+        </div>
+        <div class="app-footer">
+          <div class="p-2 text-xs">
+            <div class="pull-right text-muted py-1">
+              &copy; Copyright
+              <strong>Flatkit</strong>
+              <span class="hidden-xs-down">- Built with Love v1.1.3</span>
+              <a ui-scroll-to="content">
+                <i class="fa fa-long-arrow-up p-x-sm"></i>
+              </a>
+            </div>
+            <div class="nav">
+              <a class="nav-link" href="/vendor/envato/">About</a>
+              <a class="nav-link" href="http://themeforest.net/user/flatfull/portfolio?ref=flatfull">Get it</a>
+            </div>
+          </div>
+        </div>
+        <div ui-view class="app-body" id="view">
+
+          <!-- ############ PAGE START-->
+          <div class="padding">
+            <div class="margin">
+              <h5 class="mb-0 _300">Hola
+                <%= account.name %>! Bienvenido de vuelta</h5>
+              <small class="text-muted">Plataforma de m&eacute;tricas Accionet</small>
+            </div>
+            <div class="row">
+              <div class="col-sm-12 col-md-12 col-lg-12">
+                <div class="row">
+                  <div class="col-sm-6 col-md-6 col-lg-3">
+                    <div class="box p-a">
+                      <div class="pull-left m-r">
+                        <i class="fa fa-users text-2x text-info m-y-sm"></i>
+                      </div>
+                      <div class="clear">
+                        <div class="text-muted">Alcance</div>
+                        <h4 class="m-0 text-md _600">
+                          <a href>7.530</a>
+                        </h4>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-sm-6 col-md-6 col-lg-3" ng-init="count('impressions')">
+                    <div class="box p-a">
+                      <div class="pull-left m-r">
+                        <i class="fa fa-ticket text-2x text-primary m-y-sm"></i>
+                      </div>
+                      <div class="clear">
+                        <div class="text-muted">Impresiones</div>
+                        <h4 ng-if="impressions.loading" class="m-0 text-md _600">
+                          <i class="fa fa-spinner fa-pulse fa-fw"></i>
+                        </h4>
+                        <h4 ng-if="!impressions.loading" class="m-0 text-md _600">
+                          <a href>{{impressions.count | number}}</a>
+                        </h4>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-sm-6 col-md-6 col-lg-3">
+                    <div class="box p-a">
+                      <div class="pull-left m-r">
+                        <i class="fa fa-wifi text-2x text-info m-y-sm"></i>
+                      </div>
+                      <div class="clear">
+                        <div class="text-muted">Conexiones</div>
+                        <h4 class="m-0 text-md _600">
+                          <a href>FALTA</a>
+                        </h4>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-sm-6 col-md-6 col-lg-3">
+                    <div class="box p-a">
+                      <div class="pull-left m-r">
+                        <i class="fa fa-mobile text-2x text-success m-y-sm"></i>
+                      </div>
+                      <div class="clear">
+                        <div class="text-muted">Anuncios Activos</div>
+                        <h4 ng-if="impressions.loading" class="m-0 text-md _600">
+                          <i class="fa fa-spinner fa-pulse fa-fw"></i>
+                        </h4>
+                        <h4 ng-if="!impressions.loading" class="m-0 text-md _600">
+                          <a href>FALTA</a>
+                        </h4>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-12 col-lg-12">
+                <div class="box">
+                  <div class="box-header">
+                    <h3>Indicadores</h3>
+                    <small>Esta semana</small>
+                  </div>
+                  <div class="box-tool">
+                    <ul class="nav">
+                      <li class="nav-item inline">
+                        <a class="nav-link">
+                          <i class="material-icons md-18">&#xe863;</i>
+                        </a>
+                      </li>
+                      <li class="nav-item inline dropdown">
+                        <a class="nav-link" data-toggle="dropdown">
+                          <i class="material-icons md-18">&#xe5d4;</i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-scale pull-right">
+                          <a class="dropdown-item" href>Esta semana</a>
+                          <a class="dropdown-item" href>Este mes</a>
+                          <a class="dropdown-item" href>Este a&ntilde;o</a>
+                          <div class="dropdown-divider"></div>
+                          <a class="dropdown-item">Hoy d&iacute;a</a>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="text-center b-t">
+                    <div class="row-col">
+                      <div class="row-cell p-a">
+                        <div class="inline m-b">
+                          <div
+                            ui-jp="easyPieChart"
+                            class="easyPieChart"
+                            ui-refresh="app.setting.color"
+                            data-redraw='true'
+                            data-percent="55"
+                            ui-options="{
+                        lineWidth: 8,
+                        trackColor: 'rgba(0,0,0,0.05)',
+                        barColor: '#0cc2aa',
+                        scaleColor: 'transparent',
+                        size: 100,
+                        scaleLength: 0,
+                        animate:{
+                          duration: 3000,
+                          enabled:true
+                        }
+                      }">
+                            <div>
+                              <h5>55%</h5>
+                            </div>
+                          </div>
+                        </div>
+                        <div>
+                          CTR (click through rate)
+                          <small class="block m-b">12.765</small>
+                          <a href class="btn btn-sm white rounded">¿Qu&eacute; es esto?</a>
+                        </div>
+                      </div>
+                      <div class="row-cell p-a dker">
+                        <div class="inline m-b">
+                          <div
+                            ui-jp="easyPieChart"
+                            class="easyPieChart"
+                            ui-refresh="app.setting.color"
+                            data-redraw='true'
+                            data-percent="45"
+                            ui-options="{
+                        lineWidth: 8,
+                        trackColor: 'rgba(0,0,0,0.05)',
+                        barColor: '#fcc100',
+                        scaleColor: 'transparent',
+                        size: 100,
+                        scaleLength: 0,
+                        animate:{
+                          duration: 3000,
+                          enabled:true
+                        }
+                      }">
+                            <div>
+                              <h5>45%</h5>
+                            </div>
+                          </div>
+                        </div>
+                        <div>
+                          Interacciones
+                          <small class="block m-b">156.654</small>
+                          <a href class="btn btn-sm white rounded">¿Qu&eacute; es esto?</a>
+                        </div>
+                      </div>
+                      <div class="row-cell p-a">
+                        <div class="inline m-b">
+                          <div
+                            ui-jp="easyPieChart"
+                            class="easyPieChart"
+                            ui-refresh="app.setting.color"
+                            data-redraw='true'
+                            data-percent="55"
+                            ui-options="{
+                        lineWidth: 8,
+                        trackColor: 'rgba(0,0,0,0.05)',
+                        barColor: '#0cc2aa',
+                        scaleColor: 'transparent',
+                        size: 100,
+                        scaleLength: 0,
+                        animate:{
+                          duration: 3000,
+                          enabled:true
+                        }
+                      }">
+                            <div>
+                              <h5>55%</h5>
+                            </div>
+                          </div>
+                        </div>
+                        <div>
+                          Tasa de rebote
+                          <small class="block m-b">12.765</small>
+                          <a href class="btn btn-sm white rounded">¿Qu&eacute; es esto?</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-12 col-md-12 col-lg-12 col-xl-6">
+                <day-graph id='g1' sponsor="" displays=";login.html;banner;initial_portal;swiper_portal" ></day-graph>
+              </div>
+              <div class="col-sm-12 col-md-12 col-lg-12 col-xl-6">
+                <hour-graph id='g2' sponsor="" displays=";login.html;initial_portal;" ></hour-graph>
+              </div>
+            </div>
+
+
+            <div class="row">
+              <div class="col-sm-6 col-md-4">
+                <div class="box">
+                  <div class="box-header">
+                    <h3>Sistema operativo</h3>
+                    <small>Dispositivo de conexi&oacute;n</small>
+                  </div>
+                  <div class="box-body">
+                    <div
+                      ui-jp="plot"
+                      ui-refresh="app.setting.color"
+                      ui-options="
+            [{data: 75, label: &#x27;Android&#x27;}, {data: 20, label: &#x27;iOS&#x27;}],
+            {
+              series: { pie: { show: true, innerRadius: 0, stroke: { width: 0 }, label: { show: true, threshold: 0.05 } } },
+              legend: {backgroundColor: 'transparent'},
+              colors: ['#0cc2aa','#fcc100'],
+              grid: { hoverable: true, clickable: true, borderWidth: 0, color: 'rgba(120,120,120,0.5)' },
+              tooltip: true,
+              tooltipOpts: { content: '%s: %p.0%' }
+            }
+          "
+                      style="height:200px"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-6 col-md-4">
+                <div class="box">
+                  <div class="box-header">
+                    <h3>Navegador</h3>
+                    <small>De las conexiones</small>
+                  </div>
+                  <div class="box-body">
+                    <div
+                      ui-jp="plot"
+                      ui-refresh="app.setting.color"
+                      ui-options="
+            [{data: 70, label:&#x27;Chrome&#x27;}, {data: 30, label: &#x27;Safari&#x27;}],
+            {
+              series: { pie: { show: true, innerRadius: 0.6, stroke: { width: 0 }, label: { show: true, threshold: 0.05 } } },
+              legend: {backgroundColor: 'transparent'},
+              colors: ['#0cc2aa','#fcc100'],
+              grid: { hoverable: true, clickable: true, borderWidth: 0, color: 'rgba(120,120,120,0.5)' },
+              tooltip: true,
+              tooltipOpts: { content: '%s: %p.0%' }
+            }
+          "
+                      style="height:200px"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-6 col-md-4">
+                <div class="box">
+                  <div class="box-header">
+                    <h3>Conexiones por usuarios</h3>
+                    <small>N&uacute;mero de veces conectados</small>
+                  </div>
+                  <div class="box-body">
+                    <div
+                      ui-jp="plot"
+                      ui-refresh="app.setting.color"
+                      ui-options="
+            [
+              { data: [[1000, 1], [200, 2], [60, 3], [50, 4], [40, 5]] }
+            ],
+            {
+              bars: { horizontal: true, show: true, fill: true,  barWidth: 0.3, lineWidth: 1, fillColor: { colors: [{ opacity: 0.8 }, { opacity: 1}] }, align: 'center' },
+              colors: ['#0cc2aa'],
+              series: { shadowSize: 3 },
+              xaxis: { show: true, font: { color: '#ccc' }, position: 'bottom', },
+              yaxis:{ show: true, font: { color: '#ccc' }},
+              grid: { hoverable: true, clickable: true, borderWidth: 0, color: 'rgba(120,120,120,0.5)' },
+              tooltip: true,
+              tooltipOpts: { content: '%x.0 is %y.4',  defaultTheme: false, shifts: { x: 0, y: -40 } }
+            }
+          "
+                      style="height:200px"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- ##### MAP AREA  -->
+
+          <!-- ############ PAGE END-->
+
+        </div>
+      </div>
+      <!-- / -->
+      <!-- / -->
+
+      <!-- ############ LAYOUT END-->
+
+    </div>
+    <%= include partials/envato/scripts.ejs %>
+
+    <!-- Graphs angular services -->
+    <script src="/javascripts/angular/services/graphs/chart.js"></script>
+    <script src="/javascripts/angular/services/graphs/day.js"></script>
+    <script src="/javascripts/angular/services/graphs/hour.js"></script>
+
+    <script src="/javascripts/angular/services/graphs/utils.js"></script>
+
+
+    <!-- Graphs angular controllers -->
+
+    <script src="/javascripts/angular/controllers/metrics/dayAndHour.js"></script>
+
+    <!-- Angular directives -->
+    <script src="/javascripts/angular/directives/metrics/dayGraph.js"></script>
+    <script src="/javascripts/angular/directives/metrics/hourChart.js"></script>
+
+
+  </body>
+</html>
